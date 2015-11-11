@@ -117,8 +117,18 @@ end.
 %  dass die Teilbaeume ebenso eingefuegt werden (erhoehter Schwierigkeitsgrad) oder schreiben Sie eigene
 %  Tests.
 
+sortedInsert([],T) -> [T];
+sortedInsert([X|XS],T) -> case weight(X) < weight(T) of
+  true -> [X|sortedInsert(XS,T)];
+  false -> [T|[X|XS]]
+  end.
+  
 -spec combine(list(tree())) -> list(tree()).
-combine([TreeList]) -> toBeDefined.
+%% combine([TreeList]) -> toBeDefined.
+combine([]) -> [];
+combine([T1,T2|TS]) -> sortedInsert(TS,makeCodeTree(T1,T2));
+combine(TS) -> TS.
+
 
 %  Die Funktion repeatCombine soll die Funktion combine so lange aufrufen, bis nur noch ein Gesamtbaum uebrig ist.
 -spec repeatCombine(TreeList::list(tree())) -> tree().
