@@ -137,7 +137,7 @@ repeatCombine(TreeList)-> repeatCombine(combine(TreeList)).
 
 %  createCodeTree fuegt die einzelnen Teilfunktionen zusammen. Soll aus einem gegebenen Text, den Gesamtbaum erzeugen.
 -spec createCodeTree(Text::list(char())) -> tree().
-createCodeTree(Text)-> toBeDefined.
+createCodeTree(Text)-> repeatCombine(makeOrderedLeafList(createFrequencies(Text))).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
