@@ -90,7 +90,15 @@ end.
 %  z.B. aus makeOrderedLeafList([{$b,5},{$d,2},{$e,11},{$a,7}])
 % wird [#leaf{char=$d,weight=2},#leaf{char=$b,weight=5},#leaf{char=$a,weight=7},#leaf{char=$e,weight=11}]
 -spec makeOrderedLeafList(FreqList::list({char(), non_neg_integer()})) -> list(leaf()).
-makeOrderedLeafList(FeqList) -> toBeDefined.
+makeOrderedLeafList(FreqList) -> case FreqList of
+  [] -> [];
+  [{X1, X2}, {Y1,Y2}|YS] when X2 > Y2 ->
+    [#leaf{char=Y1, weight=Y2}]++makeOrderedLeafList([{X1,X2}|YS]);
+  [{X1, X2}, {Y1,Y2}|YS] ->
+    [#leaf{char=X1, weight=X2}]++makeOrderedLeafList([{Y1,Y2}|YS]);
+  [{X1, X2}|[]] -> [#leaf{char=X1, weight=X2}]
+end.
+
 
 %  Bei jedem Aufruf von combine sollen immer zwei Teilbaeume (egal ob fork oder leaf) zusammenfuegt werden.
 %  Der Parameter der Funktion combine ist eine aufsteigend sortierte Liste von Knoten.
