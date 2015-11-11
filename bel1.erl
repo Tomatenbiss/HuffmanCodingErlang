@@ -132,7 +132,7 @@ combine(TS) -> TS.
 
 %  Die Funktion repeatCombine soll die Funktion combine so lange aufrufen, bis nur noch ein Gesamtbaum uebrig ist.
 -spec repeatCombine(TreeList::list(tree())) -> tree().
-repeatCombine([L|[]]) -> L;
+repeatCombine([L|[]]) ->L;
 repeatCombine(TreeList)-> repeatCombine(combine(TreeList)).
 
 %  createCodeTree fuegt die einzelnen Teilfunktionen zusammen. Soll aus einem gegebenen Text, den Gesamtbaum erzeugen.
