@@ -50,7 +50,7 @@ end.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%    Erzeugung eines Huffman Trees
+%   Erzeugung eines Huffman Trees
 %
 %   Schreiben Sie eine Funktion createFrequencies, die aus einem Text die
 %   Haeufigkeiten des Vorkommens eines Zeichen in der Zeichenkette berechnet.
@@ -69,7 +69,7 @@ end.
 %  2. Aufruf der Funktion fuer jeden Buchstaben
 
 -spec addLetter(list({char(),non_neg_integer()}), char())-> list({char(), non_neg_integer()}).
-addLetter(TupelList, Char) -> case TupelList of
+addLetter(TupelList, Char) -> case TupelList of %3 möglich
   [] -> [{Char, 1}]++[];
   [{X,Y}|XS] when X == Char -> lists:flatten([{X, Y+1}|XS]);
   [{X,Y}|XS] when Char < X -> lists:flatten([{Char, 1}]++TupelList);
@@ -79,7 +79,11 @@ end.
 
 
 -spec createFrequencies(list(char())) -> list({char(), non_neg_integer()}).
-createFrequencies(Text) -> toBeDefined.
+createFrequencies(Text) -> case Text of
+  [] -> [];
+  [X|XS] -> addLetter(createFrequencies(XS), X)
+end.
+
 
 %  Erzeugung eines Blattknotens fuer jeden Buchstaben in der Liste
 %  Aufsteigendes Sortieren der Blattknoten nach den Haeufigkeiten der Vorkommen der Buchstaben

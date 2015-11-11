@@ -17,8 +17,8 @@ exampleTree() -> #fork{ left = #leaf{char = 65,weight = 8}, right = #fork{left =
              chars = "EF",weight = 2},right = #fork{ left = #leaf{char = 71,weight = 1}, right = #leaf{char = 72,weight = 1},
              chars = "GH",weight = 2}, chars = "EFGH",weight = 4}, chars = "BCDEFGH",weight = 9}, chars = "ABCDEFGH",weight = 17}.
 exampleString()-> "AAAABCDEFGHAAAABB".
-				
-% tests of the basic functions						
+
+% tests of the basic functions
 weight_test_()->
 	[	{setup, fun createTree0/0, fun(X)->?_assertEqual(4,bel1:weight(X)) end},
 		{setup, fun createTree1/0, fun(X)->?_assertEqual(5,bel1:weight(X)) end},
@@ -44,8 +44,8 @@ addLetter_test_() ->
 		?_assertEqual([{$a,1}], bel1:addLetter([],$a)),
 		?_assertMatch([{_,2},{_,2},{_,2}], bel1:addLetter([{$a,2},{$b,1},{$c,2}],$b))
 	].
-	
-createFrequency_test_()-> 
+
+createFrequency_test_()->
 	?_assertEqual([{$a,2},{$b,3},{$c,2},{$d,1},{$q,1}], lists:sort( fun({X,_},{Y,_})->X<Y end,
 								bel1:createFrequencies("abqcabcdb"))).
 
@@ -89,4 +89,3 @@ decode_test_()->
 
 encode_decode_test_()->
 		?_assertEqual("ADDABHGACDABGHAAAA", bel1:decode(exampleTree(),bel1:encode("ADDABHGACDABGHAAAA",exampleTree()))).
-
