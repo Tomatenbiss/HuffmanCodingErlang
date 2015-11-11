@@ -147,7 +147,17 @@ createCodeTree(Text)-> repeatCombine(makeOrderedLeafList(createFrequencies(Text)
 % Die Funktion decode soll eine Liste von Bits mit einem gegebenen Huffman Code (CodeTree) dekodieren.
 % Ergebnis soll die Zeichenkette im Klartext sein.
 -spec decode(CodeTree::tree(), list( bit())) -> list(char()).
-decode(CodeTree, BitList) -> toBeDefined.
+  decode(CodeTree, []) -> [];
+  decode(CodeTree, BitList) -> decodeChar(CodeTree, CodeTree, BitList).
+
+-spec decodeChar(CodeTree::tree(), CodeTree::tree(), list(bit())) -> list(char()).
+decodeChar(CodeTree, [#leaf{char=Char,weight=_}|XS], [Y|YS]) ->
+  [Char|decodeChar(CodeTree, CodeTree, YS)];
+decodeChar(CodeTree, [#fork{left=_,right=Right,chars=_,weight=_}|XS], [0|YS]) ->
+  decodeChar(CodeTree, Right, YS);
+decodeChar(CodeTree, [#fork{left=Left,right=_,chars=_,weight=_}|XS], [1|YS]) ->
+  decodeChar(CodeTree, Left, YS).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
