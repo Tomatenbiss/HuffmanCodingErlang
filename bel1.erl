@@ -122,7 +122,7 @@ sortedInsert([X|XS],T) -> case weight(X) < weight(T) of
   true -> [X|sortedInsert(XS,T)];
   false -> [T|[X|XS]]
   end.
-  
+
 -spec combine(list(tree())) -> list(tree()).
 %% combine([TreeList]) -> toBeDefined.
 combine([]) -> [];
@@ -132,7 +132,8 @@ combine(TS) -> TS.
 
 %  Die Funktion repeatCombine soll die Funktion combine so lange aufrufen, bis nur noch ein Gesamtbaum uebrig ist.
 -spec repeatCombine(TreeList::list(tree())) -> tree().
-repeatCombine(TreeList)-> toBeDefined.
+repeatCombine([L|[]]) -> L;
+repeatCombine(TreeList)-> repeatCombine(combine(TreeList)).
 
 %  createCodeTree fuegt die einzelnen Teilfunktionen zusammen. Soll aus einem gegebenen Text, den Gesamtbaum erzeugen.
 -spec createCodeTree(Text::list(char())) -> tree().
