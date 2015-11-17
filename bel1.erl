@@ -90,14 +90,26 @@ end.
 %  z.B. aus makeOrderedLeafList([{$b,5},{$d,2},{$e,11},{$a,7}])
 % wird [#leaf{char=$d,weight=2},#leaf{char=$b,weight=5},#leaf{char=$a,weight=7},#leaf{char=$e,weight=11}]
 -spec makeOrderedLeafList(FreqList::list({char(), non_neg_integer()})) -> list(leaf()).
-makeOrderedLeafList(FreqList) -> case FreqList of
-  [] -> [];
-  [{X1, X2}, {Y1,Y2}|YS] when X2 > Y2 ->
-    [#leaf{char=Y1, weight=Y2}]++makeOrderedLeafList([{X1,X2}|YS]);
-  [{X1, X2}, {Y1,Y2}|YS] ->
-    [#leaf{char=X1, weight=X2}]++makeOrderedLeafList([{Y1,Y2}|YS]);
-  [{X1, X2}|[]] -> [#leaf{char=X1, weight=X2}]
+makeOrderedLeafList(FreqList) -> insertSortLeafList(FreqList).
+
+insertLeaf(#leaf{char=X1,weight=X2}, []) -> [#leaf{char=X1,weight=X2}];
+insertLeaf(#leaf{char=X1,weight=X2}, [#leaf{char=Y1,weight=Y2}|YS]) -> case X2 < Y2 of
+  true -> [#leaf{char=X1,weight=X2},#leaf{char=Y1,weight=Y2}|YS];
+  _ -> [#leaf{char=Y1,weight=Y2}|insertLeaf(#leaf{char=X1,weight=X2}, YS)]
 end.
+
+insertSortLeafList([]) -> [];
+insertSortLeafList([{X1,X2}|XS]) -> insertLeaf(#leaf{char=X1, weight=X2}, insertSortLeafList(XS)).
+
+
+%makeOrderedLeafList(FreqList) -> case FreqList of
+%  [] -> [];
+  %[{X1, X2}, {Y1,Y2}|YS] when X2 > Y2 ->
+  %  [#leaf{char=Y1, weight=Y2}]++makeOrderedLeafList([{X1,X2}|YS]);
+  %[{X1, X2}, {Y1,Y2}|YS] ->
+    %[#leaf{char=X1, weight=X2}]++makeOrderedLeafList([{Y1,Y2}|YS]);
+  %[{X1, X2}|[]] -> [#leaf{char=X1, weight=X2}]
+%end.
 
 
 %  Bei jedem Aufruf von combine sollen immer zwei Teilbaeume (egal ob fork oder leaf) zusammenfuegt werden.
@@ -118,9 +130,9 @@ end.
 %  Tests.
 
 sortedInsert([],T) -> [T];
-sortedInsert([X|XS],T) -> case weight(X) < weight(T) of
-  true -> [X|sortedInsert(XS,T)];
-  false -> [T|[X|XS]]
+sortedInsert([X|XS],T) -> case weight(X) > weight(T) of
+  false -> [X|sortedInsert(XS,T)];
+  true -> [T|[X|XS]]
   end.
 
 -spec combine(list(tree())) -> list(tree()).
@@ -132,6 +144,7 @@ combine(TS) -> TS.
 
 %  Die Funktion repeatCombine soll die Funktion combine so lange aufrufen, bis nur noch ein Gesamtbaum uebrig ist.
 -spec repeatCombine(TreeList::list(tree())) -> tree().
+
 repeatCombine([L|[]]) ->L;
 repeatCombine(TreeList)-> repeatCombine(combine(TreeList)).
 

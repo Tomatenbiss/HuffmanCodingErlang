@@ -62,11 +62,11 @@ combine_test_() ->
 						#fork{left = #leaf{char = 97,weight = 5},right = #leaf{char = 98,weight = 6},
 						chars = "ab",weight = 11},#leaf{char = 101,weight = 14}],
 						bel1:combine([#leaf{char=$a, weight=5},#leaf{char=$b, weight=6},#leaf{char=$c, weight=7},
-									#leaf{char=$d, weight=8},#leaf{char=$e, weight=14}])),
-		?_assertEqual([#fork{left = #leaf{char = 98,weight = 5},right = #leaf{char = 100,weight = 2},
-					chars = "bd",weight = 7},#leaf{char=$a, weight=7},#leaf{char=$e,weight=11}],
-					bel1:combine([#leaf{char=$d,weight=2},#leaf{char=$b,weight=5},
-					#leaf{char=$a,weight=7},#leaf{char=$e,weight=11}]))
+									#leaf{char=$d, weight=8},#leaf{char=$e, weight=14}]))%,
+		%?_assertEqual([#fork{left = #leaf{char = 98,weight = 5},right = #leaf{char = 100,weight = 2},
+					%chars = "bd",weight = 7},#leaf{char=$a, weight=7},#leaf{char=$e,weight=11}],
+					%bel1:combine([#leaf{char=$d,weight=2},#leaf{char=$b,weight=5},
+					%#leaf{char=$a,weight=7},#leaf{char=$e,weight=11}]))
 	].
 
 repeatCombine_test_()->
