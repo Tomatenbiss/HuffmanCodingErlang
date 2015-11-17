@@ -175,10 +175,26 @@ decodeChar(_,_,_) -> [].
 %  aus dem Character und der Bitsequenz.
 %  Also: convert(CodeTree)->[{Char,BitSeq},...]
 -spec convert(CodeTree::tree()) -> list({char(), list(bit())}).
-convert(CodeTree) -> toBeDefined.
+  convert(CodeTree) -> convertTree([], CodeTree).
+
+-spec convertTree(list({list(bit())}), tree()) -> list({char(), list(bit())}).
+convertTree(BitSeq, #leaf{char=C}) -> [{C, BitSeq}];
+convertTree(BitSeq, #fork{left=Left,right=Right,chars=C}) ->
+  convertTree(append(BitSeq, 0), Left)++convertTree(append(BitSeq, 1), Right).
+
+%-spec append(list(integer()), integer()).
+append([], Y) -> [Y];
+append([X|XS], Y) -> [X|append(XS, Y)].
 
 %  Schreiben Sie eine Funktion encode, die aus einem Text und einem CodeTree die entsprechende
 %  Bitsequenz generiert.
 %  Verwenden Sie dabei die erzeugte Tabelle.
 -spec encode(Text::list(char()), CodeTree::tree()) -> list(bit()).
 encode(Text, CodeTree) -> toBeDefined.
+
+createTestTree() -> #fork{ left = #leaf{char = 65,weight = 8}, right = #fork{left = #fork{
+             left = #leaf{char = 66,weight = 3}, right = #fork{ left = #leaf{char = 67,weight = 1},
+             right = #leaf{char = 68,weight = 1}, chars = "CD",weight = 2}, chars = "BCD",weight = 5},
+             right = #fork{ left = #fork{ left = #leaf{char = 69,weight = 1},right = #leaf{char = 70,weight = 1},
+             chars = "EF",weight = 2},right = #fork{ left = #leaf{char = 71,weight = 1}, right = #leaf{char = 72,weight = 1},
+             chars = "GH",weight = 2}, chars = "EFGH",weight = 4}, chars = "BCDEFGH",weight = 9}, chars = "ABCDEFGH",weight = 17}.
