@@ -190,7 +190,13 @@ append([X|XS], Y) -> [X|append(XS, Y)].
 %  Bitsequenz generiert.
 %  Verwenden Sie dabei die erzeugte Tabelle.
 -spec encode(Text::list(char()), CodeTree::tree()) -> list(bit()).
-encode(Text, CodeTree) -> toBeDefined.
+encode([], CodeTree) -> [];
+encode([X|XS], CodeTree) -> [encodeChar(X, convert(CodeTree))|encode(XS, CodeTree)].
+
+
+encodeChar(X, []) -> error;
+encodeChar(X, [{Y1, Y2}|YS]) when X == Y1 -> Y2;
+encodeChar(X, [_|YS]) -> encodeChar(X, YS).
 
 
 createTestTree() -> #fork{ left = #leaf{char = 65,weight = 8}, right = #fork{left = #fork{
