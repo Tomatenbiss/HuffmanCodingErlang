@@ -182,7 +182,7 @@ convertTree(BitSeq, #leaf{char=C}) -> [{C, BitSeq}];
 convertTree(BitSeq, #fork{left=Left,right=Right,chars=C}) ->
   convertTree(append(BitSeq, 0), Left)++convertTree(append(BitSeq, 1), Right).
 
-%-spec append(list(integer()), integer()).
+-spec append(list(bit()), bit()) -> list(bit()).
 append([], Y) -> [Y];
 append([X|XS], Y) -> [X|append(XS, Y)].
 
@@ -191,6 +191,7 @@ append([X|XS], Y) -> [X|append(XS, Y)].
 %  Verwenden Sie dabei die erzeugte Tabelle.
 -spec encode(Text::list(char()), CodeTree::tree()) -> list(bit()).
 encode(Text, CodeTree) -> toBeDefined.
+
 
 createTestTree() -> #fork{ left = #leaf{char = 65,weight = 8}, right = #fork{left = #fork{
              left = #leaf{char = 66,weight = 3}, right = #fork{ left = #leaf{char = 67,weight = 1},
