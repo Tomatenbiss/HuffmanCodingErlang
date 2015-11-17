@@ -89,8 +89,3 @@ decode_test_()->
 
 encode_decode_test_()->
 		?_assertEqual("ADDABHGACDABGHAAAA", bel1:decode(exampleTree(),bel1:encode("ADDABHGACDABGHAAAA",exampleTree()))).
-
-convert_test_ignore()->
-	?_assertEqual(
-		([{$A, 0}, {}])
-	)

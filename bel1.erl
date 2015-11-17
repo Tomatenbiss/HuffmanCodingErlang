@@ -191,7 +191,7 @@ append([X|XS], Y) -> [X|append(XS, Y)].
 %  Verwenden Sie dabei die erzeugte Tabelle.
 -spec encode(Text::list(char()), CodeTree::tree()) -> list(bit()).
 encode([], CodeTree) -> [];
-encode([X|XS], CodeTree) -> [encodeChar(X, convert(CodeTree))|encode(XS, CodeTree)].
+encode([X|XS], CodeTree) -> lists:flatten([encodeChar(X, convert(CodeTree))|encode(XS, CodeTree)]).
 
 
 encodeChar(X, []) -> error;
@@ -205,3 +205,5 @@ createTestTree() -> #fork{ left = #leaf{char = 65,weight = 8}, right = #fork{lef
              right = #fork{ left = #fork{ left = #leaf{char = 69,weight = 1},right = #leaf{char = 70,weight = 1},
              chars = "EF",weight = 2},right = #fork{ left = #leaf{char = 71,weight = 1}, right = #leaf{char = 72,weight = 1},
              chars = "GH",weight = 2}, chars = "EFGH",weight = 4}, chars = "BCDEFGH",weight = 9}, chars = "ABCDEFGH",weight = 17}.
+
+createTestBitSeq() -> [1,0,0,0,0,1,1,1,1,1,1,1,0,0].
